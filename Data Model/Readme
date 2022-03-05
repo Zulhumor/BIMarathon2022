@@ -1,6 +1,6 @@
 Business Value - Analyzing university ranking
 
-Grain - University description by city and years
+Grain - University ranking by city and years
 
 Dimensions - Dim_university, Dim_location, Dim_research
 
