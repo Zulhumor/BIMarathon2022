@@ -6,3 +6,10 @@ Dimensions - Dim_university, Dim_location, Dim_research
 
 <>Facts - FACT_university_ranking</b>
 
+Business Value - Analyzing university ranking
+
+Grain - University description by city and years
+
+Dimensions - Dim_university, Dim_location, Dim_research
+
+Facts - FACT_university_ranking
