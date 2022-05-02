@@ -13,15 +13,15 @@ The objective of this project is to illustrate World University Rankings data in
 
 This project will assist students and their parents to answer following questions;
 
-1.	Which cities have the most number of top ranking universities?
+1.	Which United States cities have the most number of top ranking universities?
 
-2.	What is the student faculty ratio of the top ranked universities in the database? 
+2.	What is the student faculty ratio of the top ranked United States universities in the database? 
 
-3. What is the percentage of international students of the top ranking universities?            
+3. What is the percentage of international students of the top 10 ranking universities in United States?            
 
-4. How two universities are different based on certain aspects?
+4. How those universities are different based on certain aspects and what their standing in the world university ranking?
 
-5. Out of top ranked 100 universities, which universities have better average score Private or Public Universities that are located in US. 
+5. Out of top ranked 100 universities, which universities have better average score Private or Public Universities that are located in US?
 
 
 Content
