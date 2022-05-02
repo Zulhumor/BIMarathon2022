@@ -58,4 +58,3 @@ g. --Select from a fact table and give temporary name to Score column as points
 
 SELECT score AS "points"
 FROM fact_uni_rankings;
-
