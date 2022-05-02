@@ -1,0 +1,90 @@
+USE orders;
+
+-- 1. Write a SQL query to calculate average purchase amount of all orders. Return average purchase amount
+
+SELECT ROUND (AVG(ORD_AMOUNT),2) AS purchase_amount
+FROM orders; 
+
+-- 2. Write a SQL query to find the highest grade of the customers for each of the city. Return city, maximum grade
+
+SELECT MAX(grade), cust_city 
+FROM customer
+GROUP BY cust_city;
+
+-- 3. Write a SQL query to find the lowest commission of agent in city London
+
+SELECT MIN(commission), agent_name, working_area
+FROM agents
+WHERE working_area= 'London';
+
+-- To find where is the city London 
+
+SELECT *
+FROM agents;
+
+-- 4. Find all customers that had agents. Select customer name, agent name and agent phone number.
+
+SELECT c.cust_name, a.agent_name, a.phone_no
+FROM agents a
+JOIN customer c ON a.agent_code=c.agent_code;
+
+-- 5. Write a SQL query (from table orders) to find highest order (purchase) amount by each customer in a particular order date.
+-- Filter the result by highest order (purchase) amount above 2000.00. 
+-- Return customer id, order date and maximum purchase amount.
+
+SELECT MAX(o.ord_amount) AS highest_purchase_amount, c.cust_code, o.ord_date
+FROM orders o
+JOIN customer c ON c.cust_code=o.cust_code
+GROUP BY c.cust_code, o.ord_date
+HAVING MAX(o.ord_amount)>2000;
+
+-- Question: if two customers have the same (purchase) amount which customer will it show? 
+
+-- 6. Write a SQL query to find those orders where order amount exists between 500 and 2000. Return ord_no, purch_amt, cust_name, city
+
+SELECT o.ord_num, o.ord_amount AS purch_amt, c.cust_name, c.cust_city AS city
+FROM orders o
+JOIN customer c ON c.cust_code=o.cust_code
+WHERE o.ord_amount BETWEEN 500 AND 2000;
+
+-- 7. Write a SQL statement to make a report with customer name, city, order number, order date, and order amount 
+-- in ascending order according to the order date to find that either any 
+-- of the existing customers have placed no order or placed one or more orders
+
+SELECT c.cust_name, c.cust_city, o.ord_num, o.ord_date, o.ord_amount 
+FROM orders o
+JOIN customer c ON c.cust_code=o.cust_code
+ORDER BY o.ord_date ASC;
+
+-- 8. From tables customer and orders, write a SQL query to find all the orders issued by the salesman 'Martin'.
+-- Return ord_no, purch_amt, ord_date, customer_id and salesman_id
+
+SELECT o.ord_num, o.ord_amount, o.ord_date, c.cust_code, a.agent_code AS salesman_id, a.agent_name
+FROM customer c
+JOIN orders o ON o.cust_code=c.cust_code
+JOIN agents a ON a.agent_code=c.agent_code
+WHERE a.agent_name='Anderson';
+
+
+-- 9. Find average ord_amount by customer country. 
+-- Show case a list of all customer names, country, their ord_amount together with average ord_amount by customer country.
+
+-- subquery: average ord_amount by customer country
+
+SELECT AVG(o.ord_amount) AS orders_amount, c.cust_country
+FROM orders o
+JOIN customer c ON c.cust_code=o.cust_code
+GROUP BY c.cust_country;
+
+WITH average_ord_amount AS
+							(SELECT AVG(o.ord_amount) as avg_orders_amount, c.cust_country
+								FROM orders o
+								JOIN customer c ON c.cust_code=o.cust_code
+								GROUP BY c.cust_country)
+SELECT c.cust_name, c.cust_country, o.ord_amount, aoa.avg_orders_amount
+FROM customer c
+JOIN orders o ON o.cust_code=c.cust_code
+JOIN average_ord_amount aoa ON aoa.cust_country=c.cust_country
+ORDER BY 1;
+
+
