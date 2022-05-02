@@ -159,12 +159,11 @@ WHERE o.ord_amount BETWEEN 500 AND 2000;
 -- 		in ascending order according to the order date to find that either any of the existing customers 
 -- 		have placed no order or placed one or more orders
 
-SELECT c.cust_name, c.cust_city, o.ord_num, o.ord_date, o.ord_amount,
-		CASE 
-			WHEN 	THEN
-		END
-FROM orders o
-JOIN customer c ON c.agent_code = o.agent_code        
+SELECT c.cust_name, c.cust_city, o.ord_num, o.ord_date, 
+		o.ord_amount AS "Order Amount" 
+FROM customer AS c 
+LEFT OUTER JOIN orders AS o 
+ON c.cust_code = o.cust_code
 ORDER BY o.ord_date ASC;
 
 
@@ -177,15 +176,14 @@ INNER JOIN customer c ON c.agent_code = o.agent_code
 INNER JOIN agents a ON a.agent_code = o.agent_code
 WHERE a.agent_name = 'Martin';
 
-
 -- 9. Find average ord_amount by customer country. Show case a list of all customer names, country, their ord_amount together 
 -- 		with average ord_amount by customer country.
 
 WITH Avg_ord_amount AS(
-	SELECT c.agent_code, AVG(o.ord_amount) as average_ord_amount
+	SELECT c.cust_country, AVG(o.ord_amount) as average_ord_amount
     FROM orders o 
-    INNER JOIN customer c ON c.agent_code = o.agent_code
-    group by cust_country
+    INNER JOIN customer c ON c.cust_code = o.cust_code
+    group by c.cust_country
 )
 SELECT c.cust_name, c.cust_country, o.ord_amount, aoa.average_ord_amount
 FROM  customer c
