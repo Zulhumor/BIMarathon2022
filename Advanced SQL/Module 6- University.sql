@@ -24,9 +24,6 @@ AS (SELECT university, link,
 	FROM university)
 SELECT * FROM CTE
 WHERE duplicatecount>1;
-            
-SELECT * FROM university 
-where university = 'University of Haifa';
 
 -- 3. INSERT NULL value in one dimension and use COALESCE function to replace NULLs with 'NA' 
 SELECT university, link, NULLIF(logo, 'logo.png') AS logo FROM university;
