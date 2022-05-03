@@ -5,7 +5,7 @@
 
 There is a map
 
-![StudentFacultyRatio2](https://user-images.githubusercontent.com/100398432/166396803-b6c0d7a8-1777-43d8-8f9e-e50ac5b46216.JPG)
+![StudentFacultyRatio2](https://user-images.githubusercontent.com/100398432/166397104-395e78dd-05db-4263-bfe6-2819b2a3d821.JPG)
 
 Student Faculty ratio 
 
