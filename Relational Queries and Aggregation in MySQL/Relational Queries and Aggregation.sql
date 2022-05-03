@@ -2,55 +2,57 @@ USE bi_marathon_zulhumor_halmamatova;
 
 -- 1.Perform LEFT, RIGHT, UNION joins with your dataset
 
-SELECT f.year, f.score, l.city
-FROM location l
-LEFT JOIN fact_uni_rankings f ON f.location_id=l.Location_id;
+-- find the universities in Europe that have High research outputs
 
+SELECT DISTINCT (university_id), research_output
+FROM research r
+LEFT JOIN fact_uni_rankings f
+ON r.research_id = f.research_id
+LEFT JOIN university u
+ON u.university_id = f.university_id
+LEFT JOIN location l
+ON l.location_id = f.location_id
+WHERE r.research_output = 'High' AND l.region = 'Europe'
+ORDER BY u.university;
 
-SELECT f.year, f.score, l.city
-FROM fact_uni_rankings f
-RIGHT JOIN location l ON f.location_id=l.Location_id;
-
--- return IDs of the universities which are private and year=2019
-
-SELECT u.university_id 
+-- Find the university and number of international students in North America
+SELECT DISTINCT u.university, f.international_students, l.region
 FROM university u
-JOIN fact_uni_rankings f ON u.university_id=f.University_id
-WHERE type='private' AND year= 2019;
+RIGHT JOIN fact_uni_rankings f
+ON f.university_id = u.university_id
+JOIN location l
+ON f.location_id = l.location_id
+WHERE region = 'North America';
+
+-- find ALL IDs from fact table and university
+SELECT f.university_id
+FROM fact_uni_rankings f
+UNION
+SELECT u.university_id
+FROM university u;
 
 -- 2.Find all universities and any score associated with those univercities
 
 SELECT u.university, f.score 
 FROM university u
-LEFT JOIN fact_uni_rankings f ON u.university_id=f.University_id;
+INNER JOIN fact_uni_rankings f ON u.university_id=f.University_id
+GROUP BY u.university_id
+ORDER BY u.university_id ASC;;
+
 
 -- 3.Find all years and any associated universities names
 
 SELECT f.year, u.university
-FROM university u
-JOIN fact_uni_rankings f ON u.university_id=f.University_id;
-
--- correct query 
-
-SELECT f.year, u.university
 FROM fact_uni_rankings f
-LEFT JOIN university u ON u.university_id=f.University_id;
+LEFT JOIN university u ON u.university_id=f.University_id
+ORDER BY f.year ASC;
+
 
 -- 4.Present all unique university IDs from university and fact tables
 
-SELECT university_id
-FROM university
-UNION 
-SELECT university_id
-FROM fact_uni_rankings;
-
--- trying wih the city 
-SELECT city
-FROM location
-UNION
-SELECT country
-FROM location
-ORDER BY 1;
+SELECT DISTINCT (university_id)
+FROM university u
+LEFT JOIN fact_uni_rankings f ON u.university_id = f.university_id;
 
 
 -- 5.Calculate how many universities had student faculty ratio more than 4
